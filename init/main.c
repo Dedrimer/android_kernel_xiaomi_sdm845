@@ -162,6 +162,22 @@ static const char *panic_later, *panic_param;
 
 extern const struct obs_kernel_param __setup_start[], __setup_end[];
 
+bool fakeselenforce = false;
+static int __init set_fakeselenforce(char *val)
+{
+	unsigned int temp;
+
+	get_option(&val, &temp);
+
+	if (temp) {
+		fakeselenforce = true;
+		pr_err("Kernel: fake enforce selinux mode enabled");
+	}
+
+	return 0;
+}
+__setup("androidboot.fakeselenforce=", set_fakeselenforce);
+
 static bool __init obsolete_checksetup(char *line)
 {
 	const struct obs_kernel_param *p;
